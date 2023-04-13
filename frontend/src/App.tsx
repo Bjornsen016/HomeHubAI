@@ -1,57 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { auth } from './firebase';
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  onAuthStateChanged,
-  signOut,
-  User,
-} from 'firebase/auth';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import MainLayout from './MainLayout';
+import Home from './Home';
+import './App.css';
 
-function App() {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-      } else {
-        setUser(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  const signInWithGoogle = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const signOutUser = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+const App: React.FC = () => {
   return (
-    <div className="App">
-      {user ? (
-        <>
-          <p>Hello, {user.displayName}!</p>
-          <button onClick={signOutUser}>Sign out</button>
-        </>
-      ) : (
-        <button onClick={signInWithGoogle}>Sign in with Google</button>
-      )}
-    </div>
+    <Router>
+      <MainLayout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {/* Add more routes here as needed */}
+        </Routes>
+      </MainLayout>
+    </Router>
   );
-}
+};
 
 export default App;
