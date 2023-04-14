@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
-import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './AuthProvider';
-import { ModuleProvider } from './ModuleContext';
+import { ThemeContextProvider } from './ThemeContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
+    <ThemeContextProvider>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </ThemeContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -9,9 +9,11 @@ interface MainLayoutProps {
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <ModuleProvider>
-      <div>
+      <div
+        style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}
+      >
         <Header />
-        <main>{children}</main>
+        <main style={{ flexGrow: 1, overflow: 'hidden' }}>{children}</main>
       </div>
     </ModuleProvider>
   );
