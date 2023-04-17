@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { dummyEvents } from './calendarData';
+import EventApi from '@fullcalendar/react';
 import {
   Container,
   Typography,
@@ -16,20 +17,22 @@ import {
   DialogActions,
   Button,
 } from '@mui/material';
-
-type EventType = {
-  id: number;
-  title: string;
-  startDate: Date;
-  endDate: Date;
-};
+import { EventType } from './types';
 
 const Calendar: React.FC = () => {
   const [selectedEvent, setSelectedEvent] = useState<EventType | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
 
-  const handleClickOpen = (event: EventType) => {
-    setSelectedEvent(event);
+  const handleClickOpen = (event: EventApi) => {
+    const eventData: EventType = {
+      id: event.id,
+      summary: event.title,
+      description: event.extendedProps.description,
+      start: { dateTime: event.start },
+      end: { dateTime: event.end },
+      creator: event.extendedProps.creator,
+    };
+    setSelectedEvent(eventData);
     setOpenDialog(true);
   };
 
