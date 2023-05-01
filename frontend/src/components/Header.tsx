@@ -13,7 +13,7 @@ import { useUserAuthContext } from '../UserAuthProvider';
 declare var google: any;
 
 const Header: React.FC = () => {
-  const { darkMode, toggleDarkMode } = useThemeContext();
+  const { darkMode, toggleDarkMode, setDarkMode } = useThemeContext();
   const { accessToken, setAccessToken, userInfo, setUserInfo } =
     useUserAuthContext();
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -64,13 +64,10 @@ const Header: React.FC = () => {
         if (newResponse.ok) {
           const data = await newResponse.json();
           const userEmail = data.email;
-          const resp = await fetch(`http://localhost:5001/api/user/updateSettings/${userEmail}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ darkMode: darkMode })
-          });
+          const response = await fetch(`http://localhost:5001/api/user/getSettings/${userEmail}`);
+          const settingsData = await response.json();
+          setDarkMode(settingsData.darkMode);
+        
 
           setAccessToken({
             token: data.accessToken,

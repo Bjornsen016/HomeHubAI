@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { Checkbox, FormControlLabel } from '@mui/material';
+import { useUserAuthContext } from '../../UserAuthProvider';
+
 
 interface CalendarSelectorProps {
   calendarList: any[];
@@ -12,6 +14,8 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
   selectedCalendars,
   setSelectedCalendars,
 }) => {
+  const { userInfo } = useUserAuthContext();
+
   const handleCalendarToggle = (calendarId: string) => {
     if (selectedCalendars.includes(calendarId)) {
       setSelectedCalendars(selectedCalendars.filter((id) => id !== calendarId));
@@ -21,19 +25,35 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
   };
 
   useEffect(() => {
-    const storedCalendars = JSON.parse(
-      localStorage.getItem('selected_calendars') || '[]'
-    );
-    if (storedCalendars.length > 0) {
-      setSelectedCalendars(storedCalendars);
-    }
-  }, []);
+    // Get user settings for selectedCalendars
+    const fetchUserSettings = async () => {
+      if (userInfo) {
+        const response = await fetch(`http://localhost:5001/api/user/getSettings/${userInfo.email}`);
+        const data = await response.json();
+        if (data.selectedCalendars) {
+          setSelectedCalendars(data.selectedCalendars);
+        }
+      }
+    };
+    fetchUserSettings();
+  }, [userInfo]);
 
-  useEffect(() => {
-    localStorage.setItem(
-      'selected_calendars',
-      JSON.stringify(selectedCalendars)
-    );
+  useEffect(() => {  
+    // Update user settings for selectedCalendars
+    const updateSelectedCalendars = async () => {
+      if(selectedCalendars.length === 0) return;
+      if (userInfo) {
+        await fetch(`http://localhost:5001/api/user/updateSettings/${userInfo.email}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ selectedCalendars: selectedCalendars }),
+        });
+      }
+    };
+  
+    updateSelectedCalendars();
   }, [selectedCalendars]);
 
   return (

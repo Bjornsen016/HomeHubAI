@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Grid from '@mui/material/Grid';
+import BusTimetable from './BusTable/BusTimetable';
 
 type ComponentWithIsSmallViewProp = React.FC<{ isSmallView?: boolean }>;
 
@@ -137,6 +138,14 @@ const Home: React.FC = () => {
               }
             >
               Task
+            </ListItem>
+            <ListItem
+              button
+              onClick={() =>
+                handleComponentChange(BusTimetable, selectedModule !== 'big')
+              }
+            >
+              Bus table
             </ListItem>
             <ListItem
               button

@@ -5,11 +5,13 @@ import { useUserAuthContext } from './UserAuthProvider';
 type ThemeContextType = {
   darkMode: boolean;
   toggleDarkMode: () => void;
+  setDarkMode: any;
 };
 
 const ThemeContext = createContext<ThemeContextType>({
   darkMode: false,
   toggleDarkMode: () => {},
+  setDarkMode: () => {}
 });
 
 export const useThemeContext = () => useContext(ThemeContext);
@@ -39,7 +41,7 @@ export const ThemeContextProvider: React.FC<ThemeContextProviderProps> = ({
   
 
   return (
-    <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>
+    <ThemeContext.Provider value={{ darkMode, toggleDarkMode, setDarkMode }}>
       {children}
     </ThemeContext.Provider>
   );

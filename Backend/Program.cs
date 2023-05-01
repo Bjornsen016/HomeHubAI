@@ -72,6 +72,20 @@ app.MapPut("/api/user/updateSettings/{userEmail}", async (string userEmail, Sett
 	}
 });
 
+app.MapGet("/api/user/getSettings/{userEmail}", async (string userEmail, GoogleAuthenticator authenticator) =>
+{
+	try
+	{
+		var settings = await authenticator.GetUserSettingsAsync(userEmail);
+		return Results.Ok(settings);
+	}
+	catch (Exception ex)
+	{
+		return Results.BadRequest(new { error = ex.Message });
+	}
+});
+
+
 
 app.Run();
 

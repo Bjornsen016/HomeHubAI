@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Text.Json;
 using System.Reflection;
+using System.Collections.Generic;
 
 public class GoogleAuthenticator
 {
@@ -179,6 +180,37 @@ public class GoogleAuthenticator
 		// Overwrite the settings document with the new settings
 		await userRef.UpdateAsync(obj);
 	}
+
+	public async Task<Settings> GetUserSettingsAsync(string email)
+	{
+		var userRef = _firestoreDb.Collection("users").Document(email);
+		var snapshot = await userRef.GetSnapshotAsync();
+		if (snapshot.Exists)
+		{
+			var data = snapshot.ToDictionary();
+			var selectedCals = new List<string>();
+
+			if (data.TryGetValue("selectedCalendars", out object value))
+			{
+				var array = value as List<object>;
+				if (array != null)
+				{
+					foreach (var item in array)
+					{
+						selectedCals.Add(item.ToString());
+					}
+				}
+			}
+
+			return new Settings
+			{
+				darkMode = data.ContainsKey("darkMode") ? (bool)data["darkMode"] : false,
+				selectedCalendars = selectedCals.Count != 0 ? selectedCals.ToArray() : null
+			};
+		}
+		return new Settings { darkMode = false, selectedCalendars = null };
+	}
+
 
 }
 
