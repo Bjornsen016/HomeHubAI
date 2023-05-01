@@ -1,7 +1,7 @@
-export type EventType = {
+export interface EventType {
   id: string;
   summary: string;
-  description?: string;
+  description: string;
   start: {
     dateTime: Date;
   };
@@ -9,7 +9,8 @@ export type EventType = {
     dateTime: Date;
   };
   creator: {
-    displayName?: string;
+    displayName: string;
     email: string;
   };
-};
+  color: string;
+}

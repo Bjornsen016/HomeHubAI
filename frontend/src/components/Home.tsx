@@ -13,6 +13,8 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Grid from '@mui/material/Grid';
 
+type ComponentWithIsSmallViewProp = React.FC<{ isSmallView?: boolean }>;
+
 const Home: React.FC = () => {
   const {
     bigComponent: BigComponent,
@@ -38,13 +40,18 @@ const Home: React.FC = () => {
     setSelectedModule(null);
   };
 
-  const handleComponentChange = (component: React.FC) => {
+  const handleComponentChange = (
+    Component: ComponentWithIsSmallViewProp,
+    isSmallView: boolean
+  ) => {
+    const ComponentWithProps = () => <Component isSmallView={isSmallView} />;
+
     if (selectedModule === 'big') {
-      setBigComponent(() => component);
+      setBigComponent(() => ComponentWithProps);
     } else if (selectedModule === 'small1') {
-      setSmallComponent1(() => component);
+      setSmallComponent1(() => ComponentWithProps);
     } else if (selectedModule === 'small2') {
-      setSmallComponent2(() => component);
+      setSmallComponent2(() => ComponentWithProps);
     }
     handleCloseDialog();
   };
@@ -67,9 +74,23 @@ const Home: React.FC = () => {
       >
         {BigComponent && <BigComponent />}
       </Grid>
-      <Grid container item xs={4} justifyContent="space-between">
+      <Grid
+        container
+        item
+        xs={4}
+        sx={{
+          height: 'calc(1/3 * 100%)',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         <Grid
           item
+          sx={{
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
           xs={6}
           onContextMenu={(e) => {
             e.preventDefault();
@@ -81,6 +102,11 @@ const Home: React.FC = () => {
         <Grid
           item
           xs={6}
+          sx={{
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
           onContextMenu={(e) => {
             e.preventDefault();
             handleOpenDialog('small2');
@@ -96,13 +122,28 @@ const Home: React.FC = () => {
             Select a component to replace the current one.
           </DialogContentText>
           <List>
-            <ListItem button onClick={() => handleComponentChange(Calendar)}>
+            <ListItem
+              button
+              onClick={() =>
+                handleComponentChange(Calendar, selectedModule !== 'big')
+              }
+            >
               Calendar
             </ListItem>
-            <ListItem button onClick={() => handleComponentChange(Task)}>
+            <ListItem
+              button
+              onClick={() =>
+                handleComponentChange(Task, selectedModule !== 'big')
+              }
+            >
               Task
             </ListItem>
-            <ListItem button onClick={() => handleComponentChange(Weather)}>
+            <ListItem
+              button
+              onClick={() =>
+                handleComponentChange(Weather, selectedModule !== 'big')
+              }
+            >
               Weather
             </ListItem>
           </List>

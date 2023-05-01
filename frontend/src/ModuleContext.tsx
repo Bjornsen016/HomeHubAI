@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from 'react';
 import Calendar from './components/Calendar/Calendar';
 import Task from './components/Task/Task';
 import Weather from './components/Weather/Weather';
+import BusTimetable from './components/BusTable/BusTimetable';
 
 type ModuleComponent = React.FC | null;
 

@@ -1,0 +1,27 @@
+/* BusTimetable.module.css */
+.timetable {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .timetableTable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .timetableTable th,
+  .timetableTable td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .timetableTable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .timetableTable tr:nth-child(even) {
+    background-color: #f8f8f8;
+  }
+  

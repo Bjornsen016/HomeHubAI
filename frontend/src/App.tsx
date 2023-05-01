@@ -5,6 +5,8 @@ import { CssBaseline } from '@mui/material';
 import { ThemeContextProvider, useThemeContext } from './ThemeContext';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
+import { UserAuthProvider } from './UserAuthProvider';
+
 
 const AppContent: React.FC = () => {
   const { darkMode } = useThemeContext();
@@ -45,8 +47,10 @@ const App: React.FC = () => {
 
 export default function AppWrapper() {
   return (
-    <ThemeContextProvider>
-      <App />
-    </ThemeContextProvider>
+    <UserAuthProvider>
+      <ThemeContextProvider>
+        <App />
+      </ThemeContextProvider>
+    </UserAuthProvider>
   );
 }
