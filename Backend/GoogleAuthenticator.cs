@@ -23,7 +23,7 @@ public class GoogleAuthenticator
 	public GoogleAuthenticator()
 	{
 		// Read the content of the service account key file
-		string serviceAccountKeyFilePath = "homehubai-firebase-adminsdk-szq0v-f82673afe5.json";
+		string serviceAccountKeyFilePath = "homehubai_firebase_credentials.json";
 		string serviceAccountKeyJson = File.ReadAllText(serviceAccountKeyFilePath);
 
 		// Deserialize the JSON content to an object
